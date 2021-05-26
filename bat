@@ -1,4 +1,4 @@
-# Licensed under the FuckRust™ License.
+#Licensed under the FuckRust™ License.
 #!/bin/sh
 
 compact=-1
@@ -32,7 +32,11 @@ while [ "$1" ]; do
                 *)
                         [ -f "$1" ] || error "$1 not a file"
                         [ $compact -gt 0 ] || printf "%s\n" "$1:"
-                        [ $nocat -lt 0 ] && cat "$1" || source-highlight -f esc -i "$1"
+                        if [ $nocat -lt 0 ]; then
+                                source-highlight -f esc -i "$1" 2>/dev/null || cat "$1"
+                        else
+                                source-highlight -f esc -i "$1"
+                        fi
                         shift && [ "$1" ] && printf "\n"
                         ;;
         esac
